@@ -4,7 +4,6 @@
 # pip install --upgrade requests
 
 import flask
-import os
 import os.path
 import pickle
 import json
