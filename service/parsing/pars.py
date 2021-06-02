@@ -83,20 +83,28 @@ def test_api_request():
     with open('heart_data.json', 'w') as f:
         json.dump(heart_data, f)
     flask.session['credentials'] = credentials_to_dict(creds)
-    heart_list = []
+    parse_heart_data()
+    return redirect("http://127.0.0.1:5000") # json.dumps(heart_list, indent=4) # flask.jsonify(heart_data)
+
+def parse_heart_data():
+    f = open('heart_data.json',)
+    heart_data = json.load(f)
     for ind in range(len(heart_data["point"])):
         heart_point = {}
-        heart_point["time"] = heart_data["point"][ind]["modifiedTimeMillis"]
+        ms = heart_data["point"][ind]["modifiedTimeMillis"]
+        heart_point["time"] = datetime.fromtimestamp(float(ms) // 1000.0)
         heart_point["bpm"] = heart_data["point"][ind]["value"][0]["fpVal"]
         source = heart_data["point"][ind]["originDataSourceId"].split(':')
-        heart_point["data source"] = source[2:]
-        heart_list.append(heart_point)
-# device_info = data_sources["dataSource"][-1]["device"]
+        heart_point["data source"] = source[2]
+        if heart_point["data source"] != "com.google.android.gms":
+            heart_point["manufacturer"] = source[3]
+            heart_point["device type"] = source[4]
+            heart_point["uid"] = source[5]
         fav=data6(bpm=heart_point.get('bpm'), time = (heart_point.get('time')), datasource = heart_point.get('data source'))
         db.session.add(fav)
         db.session.commit()
-    return json.dumps(heart_list, indent=4) # flask.jsonify(heart_data)
-    #return redirect("http://127.0.0.1:5000")
+    f.close()
+    return
 
 @app.route('/authorize')
 def authorize():
