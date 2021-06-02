@@ -19,6 +19,4 @@ class Tag(db.Model):
 
 
 db.create_all()
-db.session.add(Message("qswwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww", 'ssc'))
-db.session.commit()
 
