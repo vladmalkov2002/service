@@ -11,8 +11,10 @@ import googleapiclient.discovery
 from google_auth_oauthlib.flow import InstalledAppFlow
 from flask import redirect
 
+
 import time
 from datetime import datetime
+from datetime import timezone
 
 CLIENT_SECRETS_FILE = "client_secret.json"
 SCOPES = ['https://www.googleapis.com/auth/fitness.heart_rate.read']
