@@ -84,7 +84,7 @@ def test_api_request():
         json.dump(heart_data, f)
     flask.session['credentials'] = credentials_to_dict(creds)
     parse_heart_data()
-    return redirect("http://127.0.0.1:5000") # json.dumps(heart_list, indent=4) # flask.jsonify(heart_data)
+    return redirect("http://127.0.0.1:5000/data_base") # json.dumps(heart_list, indent=4) # flask.jsonify(heart_data)
 
 def parse_heart_data():
     f = open('heart_data.json',)
